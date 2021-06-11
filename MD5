@@ -1,11 +1,11 @@
-fa3dfc2f66ecabb2aafc49285da7cb9b *DESCRIPTION
+a5d7ef3c37dd16d254b590c73ba30757 *DESCRIPTION
 5db163e2cfc3c28b583ae0d2e4368e5e *LICENSE
-fa47421a34842505ea75311c18af8705 *NAMESPACE
+d843a05e74b7b4ebdb7ef197d4c0e22c *NAMESPACE
 3443ec6a3f22b7872bf8688714b59f98 *NEWS.md
 66c2d977e6f49ff7e813759439382ff9 *R/RcppExports.R
-5c4023374448564cffc4284fa2710e4d *R/conleyreg.R
+9f5a43fb27e5328ab5ca76d9ca48d381 *R/conleyreg.R
 4f5d25a10d0046ac25fbe99b47a741ec *README.md
-04b2da7f2137ba49666cbc9a8c0f4032 *build/partial.rdb
+9b4eb7701c49547bec714877aaf681ba *build/partial.rdb
 ef8d6d8aa9ededed65a9c5b9b3a1bd94 *build/vignette.rds
 90f81aea6cb836b1308480492d475fb0 *inst/REFERENCES.bib
 c280944a4f1f8b2b62b808a6eaeb7221 *inst/doc/conleyreg_introduction.R
