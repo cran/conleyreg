@@ -1,7 +1,7 @@
 Package: conleyreg
 Type: Package
 Title: Estimations using Conley Standard Errors
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: c(person("Christian", "Düben", email = "christian.dueben@uni-hamburg.de", role = c("aut", "cre")), person("Richard", "Bluhm", role = "cph"), 
   person("Luis", "Calderon", role = "cph"), person("Darin", "Christensen", role = "cph"), person("Timothy", "Conley", role = "cph"), person("Thiemo", "Fetzer", role = "cph"), 
   person("Leander", "Heldring", role = "cph"))
@@ -18,7 +18,7 @@ SystemRequirements: GNU make
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2021-06-11 09:46:19 UTC; BAU2796
+Packaged: 2021-06-28 08:41:50 UTC; BAU2796
 Author: Christian Düben [aut, cre],
   Richard Bluhm [cph],
   Luis Calderon [cph],
@@ -28,4 +28,4 @@ Author: Christian Düben [aut, cre],
   Leander Heldring [cph]
 Maintainer: Christian Düben <christian.dueben@uni-hamburg.de>
 Repository: CRAN
-Date/Publication: 2021-06-11 14:40:09 UTC
+Date/Publication: 2021-06-28 12:10:02 UTC
