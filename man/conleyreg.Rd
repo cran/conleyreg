@@ -18,7 +18,7 @@ conleyreg(
   intercept = TRUE,
   verbose = TRUE,
   ncores = NULL,
-  par_dim = c("cross-section", "time"),
+  par_dim = c("cross-section", "time", "r", "cpp"),
   dist_comp = NULL,
   crs = NULL,
   st_distance = FALSE,
@@ -27,6 +27,7 @@ conleyreg(
   batch = TRUE,
   batch_ram_opt = NULL,
   float = FALSE,
+  rowwise = FALSE,
   reg_ram_opt = FALSE,
   dist_mat = NULL,
   dist_mat_conv = TRUE,
@@ -69,9 +70,11 @@ their location over time.}
 
 \item{ncores}{the number of CPU cores to use in the estimations. Defaults to the machine's number of CPUs.}
 
-\item{par_dim}{the dimension along which the function parallelizes in panel applications. Can be set to \code{"cross-section"} (default) or \code{"time"}. When
-\code{st_distance = TRUE}, this setting only affects the parallelization in the standard error correction regarding serial correlation, with parallelization in
-the distance computations automatically set to the time dimension.}
+\item{par_dim}{the dimension along which the function parallelizes in panel applications. Can be set to \code{"cross-section"} (default) or \code{"time"}. With
+the former option, the function parallelizes the spatial correlation code in C++ using OpenMP and the serial correlation part in R using the parallel package.
+With the latter option, it is the other way around. Use \code{"r"} and \code{"cpp"} to define parallelization based on the language rather than the dimension.
+Some MAC users do not have access to OpenMP by default. \code{par_dim} is then always set to \code{"r"}. Thus, depending on the application, the function can be
+notably faster on Windows and Linux than on MACs.}
 
 \item{dist_comp}{choice between \code{"spherical"} and \code{"planar"} distance computations. When unspecified, the input data determines the method: longlat uses
 spherical (Haversine) distances, alternatives (projected data) use planar (Euclidean) distances. When inserting projected data but specifying
@@ -107,6 +110,12 @@ insertion, but requires more memory.}
 precise and than doubles and thereby occupy less space than doubles do. They should only be used when the machine's RAM is insufficient for both the dense and
 the sparse matrix cases, as they affect the precision of distance values. The \code{float} option only has an effect in Bartlett kernel cases because uniform
 kernel applications store the data in a smaller integer data type.}
+
+\item{rowwise}{logical specifying whether to store individual rows of the distance matrix only, instead of the full matrix. If \code{TRUE}, the function uses these
+rows directly in the standard error correction. This option's advantage is that it induces the function to store only N x \code{ncores} cells, instead of the full
+N x N matrix, lowering RAM requirements. The disadvantage is that the function needs to compute twice as many distance values as in the default case (\code{FALSE}),
+since the symmetry of the matrix is not utilized. It hence sacrifices speed for lower RAM utilization. This parameter only has an effect in cross-sectional and
+unbalanced panel applications with \code{st_distance = FALSE} and \code{sparse = FALSE}.}
 
 \item{reg_ram_opt}{logical specifying whether the regression should be optimized for RAM usage. Defaults to \code{FALSE}. Changing it to \code{TRUE} slows down
 the function. This argument only affects the baseline estimation, not the standard error correction.}
@@ -151,7 +160,7 @@ try setting a lower \code{dist_cutoff}, use floats, select a uniform kernel, exp
 Consult the vignette, \code{vignette("conleyreg_introduction", "conleyreg")}, for a more extensive discussion.
 }
 \examples{
-\donttest{
+\dontrun{
 # Generate cross-sectional example data
 data <- rnd_locations(100, output_type = "data.frame")
 data$y <- sample(c(0, 1), 100, replace = TRUE)

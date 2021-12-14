@@ -15,7 +15,7 @@ dist_mat(
   crs = NULL,
   verbose = TRUE,
   ncores = NULL,
-  par_dim = c("cross-section", "time"),
+  par_dim = c("cross-section", "time", "r", "cpp"),
   sparse = FALSE,
   batch = TRUE,
   batch_ram_opt = NULL,
@@ -59,13 +59,17 @@ the data is in longlat format (EPSG: 4326), i.e. not projected. If the projectio
 
 \item{ncores}{the number of CPU cores to use in the estimations. Defaults to the machine's number of CPUs.}
 
-\item{par_dim}{the dimension along which the function parallelizes in panel applications. Can be set to \code{"cross-section"} (default) or \code{"time"}. When
-\code{st_distance = TRUE}, this setting only affects the parallelization in standard error correction regarding serial correlation, with parallelization in the
-distance computations automatically set to the time dimension.}
+\item{par_dim}{the dimension along which the function parallelizes in unbalanced panel applications. Can be set to \code{"cross-section"} (default) or
+\code{"time"}. Use \code{"r"} and \code{"cpp"} to define parallelization based on the language rather than the dimension. In this function, \code{"r"} is
+equivalent to \code{"time"} and parallelizes along the time dimension using the parallel package. \code{"cross-section"} is equivalent to \code{"cpp"} and
+parallelizes along the cross-sectional dimension using OpenMP in C++. Some MAC users do not have access to OpenMP by default. \code{par_dim} is then always set to
+\code{"r"}. Thus, depending on the application, the function can be notably faster on Windows and Linux than on MACs. When \code{st_distance = TRUE}, \code{par_dim}
+defaults to \code{"time"}.}
 
-\item{sparse}{logical specifying whether to use sparse rather than dense (regular) matrices. Defaults to \code{FALSE}. Only has an effect when
-\code{dist_comp = "spherical"}. Sparse matrices are more efficient than dense matrices, when a lot of distances are above \code{dist_cutoff}. It is recommended to
-keep the default unless the machine is unable to allocate enough memory. The function always uses dense matrices when \code{dist_cutoff} is not specified.}
+\item{sparse}{logical specifying whether to use sparse rather than dense (regular) matrices in distance computations. Defaults to \code{FALSE}. Only has an effect
+when \code{st_distance = FALSE}. Sparse matrices are more efficient than dense matrices, when the distance matrix has a lot of zeros arising from points located
+outside the respective \code{dist_cutoff}. It is recommended to keep the default unless the machine is unable to allocate enough memory. The function always uses
+dense matrices when \code{dist_cutoff} is not specified.}
 
 \item{batch}{logical specifying whether distances are inserted into a sparse matrix element by element (\code{FALSE}) or all at once as a batch (\code{TRUE}).
 Defaults to \code{FALSE}. This argument only has an effect when \code{st_distance = FALSE} and \code{sparse = TRUE}. Batch insertion is faster than element-wise
@@ -101,15 +105,17 @@ results into \code{conleyreg}.
 }
 \details{
 This function runs the distance matrix estimations separately from the Conley standard error correction. You can pass the resulting object to the
-\code{dist_mat} argument in \code{conleyreg()}, skipping the distance matrix computations and various checks in that function. Pre-computing the distance matrix
-is only more efficient than deriving it via \code{conleyreg()} when estimating various models that use the same distance matrices. The input data must not be
-modified between calling this function and inserting the results into \code{conleyreg()}. Do not reorder the observations, add or delete variables, or undertake
+\code{dist_mat} argument in \code{conleyreg}, skipping the distance matrix computations and various checks in that function. Pre-computing the distance matrix
+is only more efficient than deriving it via \code{conleyreg} when estimating various models that use the same distance matrices. The input data must not be
+modified between calling this function and inserting the results into \code{conleyreg}. Do not reorder the observations, add or delete variables, or undertake
 any other operation on the data.
 }
 \examples{
-\donttest{
+\dontrun{
 # Generate cross-sectional example data
 data <- rnd_locations(100, output_type = "data.frame")
+data$y <- sample(c(0, 1), 100, replace = TRUE)
+data$x1 <- stats::runif(100, -50, 50)
 
 # Compute distance matrix in cross-sectional case
 dm <- dist_mat(data, lat = "lat", lon = "lon")
@@ -118,6 +124,9 @@ dm <- dist_mat(data, lat = "lat", lon = "lon")
 data$time <- rep(1:10, each = 10)
 data$unit <- rep(1:10, times = 10)
 dm <- dist_mat(data, unit = "unit", time = "time", lat = "lat", lon = "lon")
+
+# Use distance matrix in conleyreg function
+conleyreg(y ~ x1, data, 1000, dist_mat = dm)
 }
 
 }
