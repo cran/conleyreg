@@ -1,3 +1,6 @@
+# conleyreg 0.1.9
+* Fix compiler warning in separate distance matrix computations
+
 # conleyreg 0.1.8
 * Upgraded to R's current default C++17
 * Enforced panels to have numeric cross-sectional and temporal identifiers

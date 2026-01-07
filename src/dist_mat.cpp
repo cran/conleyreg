@@ -332,17 +332,13 @@ arma::sp_mat dist_spmat_d_d_b_p(arma::mat &coords, unsigned int n_obs, double di
 arma::SpMat<unsigned int> dist_spmat_d_d_r(arma::mat &coords, unsigned int n_obs, unsigned int dist_cutoff, bool haversine, unsigned short int n_cores) {
   arma::SpMat<unsigned int> distances(n_obs, n_obs);
   unsigned int dist {};
-  unsigned int z {0};
   if(haversine) {
     #pragma omp parallel for private(dist) schedule(dynamic) num_threads(n_cores) if(n_cores > 1)
     for(unsigned int i = 0; i < n_obs; i++) {
-      distances.at(i, i) = arma::datum::nan;
+      distances.at(i, i) = 0;
       for(unsigned int j = i + 1; j < n_obs; j++) {
         dist = haversine_dist_r(coords(i, 1), coords(j, 1), coords(i, 0), coords(j, 0));
         if(dist < dist_cutoff) {
-          if(dist == z) {
-            dist = arma::datum::nan;
-          }
           distances.at(i, j) = dist;
         }
       }
@@ -350,13 +346,10 @@ arma::SpMat<unsigned int> dist_spmat_d_d_r(arma::mat &coords, unsigned int n_obs
   } else {
     #pragma omp parallel for private(dist) schedule(dynamic) num_threads(n_cores) if(n_cores > 1)
     for(unsigned int i = 0; i < n_obs; i++) {
-      distances.at(i, i) = arma::datum::nan;
+      distances.at(i, i) = 0;
       for(unsigned int j = i + 1; j < n_obs; j++) {
         dist = euclidean_dist_r(coords(i, 1), coords(j, 1), coords(i, 0), coords(j, 0));
         if(dist < dist_cutoff) {
-          if(dist == z) {
-            dist = arma::datum::nan;
-          }
           distances.at(i, j) = dist;
         }
       }
@@ -372,15 +365,11 @@ arma::SpMat<unsigned int> dist_spmat_d_d_b_r(arma::mat &coords, unsigned int n_o
   std::vector<unsigned int> dist_v;
   std::vector<std::vector<unsigned int>> dist_j(n_obs);
   unsigned int dist {};
-  unsigned int z {0};
   if(haversine) {
     for(unsigned int i {0}; i < n_obs; i++) {
       for(unsigned int j = i + 1; j < n_obs; j++) {
         dist = haversine_dist_r(coords(i, 1), coords(j, 1), coords(i, 0), coords(j, 0));
         if(dist < dist_cutoff) {
-          if(dist == z) {
-            dist = arma::datum::nan;
-          }
           dist_v.push_back(dist);
           dist_j[i].push_back(j);
         }
@@ -391,9 +380,6 @@ arma::SpMat<unsigned int> dist_spmat_d_d_b_r(arma::mat &coords, unsigned int n_o
       for(unsigned int j = i + 1; j < n_obs; j++) {
         dist = euclidean_dist_r(coords(i, 1), coords(j, 1), coords(i, 0), coords(j, 0));
         if(dist < dist_cutoff) {
-          if(dist == z) {
-            dist = arma::datum::nan;
-          }
           dist_v.push_back(dist);
           dist_j[i].push_back(j);
         }
@@ -431,7 +417,6 @@ arma::SpMat<unsigned int> dist_spmat_d_d_b_r_p(arma::mat &coords, unsigned int n
   std::vector<std::vector<unsigned int>> dist_v(n_obs);
   std::vector<std::vector<unsigned int>> dist_j(n_obs);
   unsigned int dist {};
-  unsigned int z {0};
   unsigned int vec_length_i {};
   arma::Col<unsigned int> vec_intervals(n_obs + 1);
   vec_intervals.at(0) = 0;
@@ -442,9 +427,6 @@ arma::SpMat<unsigned int> dist_spmat_d_d_b_r_p(arma::mat &coords, unsigned int n
       for(unsigned int j = i + 1; j < n_obs; j++) {
         dist = haversine_dist_r(coords(i, 1), coords(j, 1), coords(i, 0), coords(j, 0));
         if(dist < dist_cutoff) {
-          if(dist == z) {
-            dist = arma::datum::nan;
-          }
           dist_v[i].push_back(dist);
           dist_j[i].push_back(j);
         }
@@ -459,9 +441,6 @@ arma::SpMat<unsigned int> dist_spmat_d_d_b_r_p(arma::mat &coords, unsigned int n
       for(unsigned int j = i + 1; j < n_obs; j++) {
         dist = euclidean_dist_r(coords(i, 1), coords(j, 1), coords(i, 0), coords(j, 0));
         if(dist < dist_cutoff) {
-          if(dist == z) {
-            dist = arma::datum::nan;
-          }
           dist_v[i].push_back(dist);
           dist_j[i].push_back(j);
         }

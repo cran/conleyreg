@@ -1,14 +1,14 @@
-74f8bbc57fdd516b427335564f0d13f4 *DESCRIPTION
+cc40a2d020905fc9aac6322398a8079c *DESCRIPTION
 5db163e2cfc3c28b583ae0d2e4368e5e *LICENSE
 eda35a9aa3ee736176f109254607c6e5 *NAMESPACE
-9147df68e107a511d6b31e2d74d91a1f *NEWS.md
+1b86802541f3b0a1be644dcd997b2693 *NEWS.md
 c7b0e550ed4c2bd4a25e94e94d4263b1 *R/RcppExports.R
 74ffd248d83d93650fb1a95757ca7dba *R/conleyreg.R
 a17910e10d1ec067a60f06a42a15c99e *R/dist_mat.R
 3be6195d4cdb89c8c07047e121e505b9 *R/rnd_locations.R
 c00a37a6f388ecfe6ad913066451990e *README.md
-0ed9666b733f6a16db36dc9555c58199 *build/partial.rdb
-2ae8f15b9f2b395aa4eef8a3aec4109a *build/vignette.rds
+9b4c775e291affaf8e7b5dcd0ce59927 *build/partial.rdb
+3a18aaa2f76f980eca7d8c4dec47221a *build/vignette.rds
 90f81aea6cb836b1308480492d475fb0 *inst/REFERENCES.bib
 43d832441ca657569958988f798ed51c *inst/doc/conleyreg_introduction.R
 7dd9ae1a3039252ea59f084285c260db *inst/doc/conleyreg_introduction.Rmd
@@ -22,7 +22,7 @@ cf944c173178ae290e86b9be1985e54a *man/dist_mat.Rd
 141bb794fc611b9f0487a8bde9282892 *src/XeeXhC.cpp
 46f76fb0b8055e5c41426b2c017472e1 *src/XeeXhC.h
 bdf807f270ffafb0d0016628d7fddc99 *src/XeeXhC_R.cpp
-ec4ac13578b2f214210f20621d36bcfc *src/dist_mat.cpp
+2e074577fa454ea51b9ff9efa2a6d0a9 *src/dist_mat.cpp
 47dd89a5c7f7dcd3fbc53ba2a542bdea *src/distance_functions.cpp
 0ed99ce353bc83b60d7e16cec670f7d8 *src/distance_functions.h
 57d2d1a02615f8cfc45525c2b780ff9f *src/distance_matrices.cpp

@@ -1,7 +1,7 @@
 Package: conleyreg
 Type: Package
 Title: Estimations using Conley Standard Errors
-Version: 0.1.8
+Version: 0.1.9
 Authors@R: c(person("Christian", "Düben", email = "cdueben.ml+cran@proton.me", role = c("aut", "cre")), person("Richard", "Bluhm", role = "cph"), 
   person("Luis", "Calderon", role = "cph"), person("Darin", "Christensen", role = "cph"), person("Timothy", "Conley", role = "cph"), person("Thiemo", "Fetzer", role = "cph"), 
   person("Leander", "Heldring", role = "cph"))
@@ -18,10 +18,10 @@ Suggests: rmarkdown, knitr
 LinkingTo: Rcpp, RcppArmadillo
 RdMacros: Rdpack
 SystemRequirements: GNU make
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2025-03-19 09:09:32 UTC; Christian
+Packaged: 2026-01-07 02:44:03 UTC; Christian
 Author: Christian Düben [aut, cre],
   Richard Bluhm [cph],
   Luis Calderon [cph],
@@ -31,4 +31,4 @@ Author: Christian Düben [aut, cre],
   Leander Heldring [cph]
 Maintainer: Christian Düben <cdueben.ml+cran@proton.me>
 Repository: CRAN
-Date/Publication: 2025-03-20 01:00:15 UTC
+Date/Publication: 2026-01-07 19:20:07 UTC
